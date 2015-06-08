@@ -69,9 +69,9 @@ def send_robotupload_oaiharvest(url=None):
                               "CFG_BATCHUPLOADER_WEB_ROBOT_RIGHTS "
                               "on host")
                 obj.log.error(result.text)
-            from invenio.modules.workflows.errors import WorkflowError
+            from workflow.errors import WorkflowError
             txt = "Error while submitting robotupload: {0}".format(result.text)
-            raise WorkflowError(txt, eng.uuid, obj.id)
+            raise WorkflowError(txt, id_workflow=eng.uuid, id_object=obj.id)
         else:
             obj.log.info("Robotupload sent!")
             obj.log.info(result.text)
@@ -156,9 +156,9 @@ def update_existing_record_oaiharvest(url=None):
                                   "CFG_BATCHUPLOADER_WEB_ROBOT_RIGHTS "
                                   "on host")
                     obj.log.error(result.text)
-                from invenio.modules.workflows.errors import WorkflowError
+                from workflow.errors import WorkflowError
                 txt = "Error while submitting robotupload: {0}".format(result.text)
-                raise WorkflowError(txt, eng.uuid, obj.id)
+                raise WorkflowError(txt, id_workflow=eng.uuid, id_object=obj.id)
             else:
                 obj.log.info("Robotupload sent!")
                 obj.log.info(result.text)

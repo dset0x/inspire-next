@@ -190,7 +190,7 @@ def send_robotupload(mode="insert"):
     @wraps(send_robotupload)
     def _send_robotupload(obj, eng):
         from invenio.base.globals import cfg
-        from invenio.modules.workflows.errors import WorkflowError
+        from workflow.errors import WorkflowError
         from inspire.utils.robotupload import make_robotupload_marcxml
 
         callback_url = os.path.join(cfg["CFG_SITE_URL"],
@@ -216,7 +216,7 @@ def send_robotupload(mode="insert"):
                               "on host")
                 obj.log.error(result.text)
             txt = "Error while submitting robotupload: {0}".format(result.text)
-            raise WorkflowError(txt, eng.uuid, obj.id)
+            raise WorkflowError(txt, id_engine=eng.uuid, id_object=obj.id)
         else:
             obj.log.info("Robotupload sent!")
             obj.log.info(result.text)
@@ -306,7 +306,7 @@ def reply_ticket(template=None, keep_new=False):
     @wraps(reply_ticket)
     def _reply_ticket(obj, eng):
         from invenio.modules.accounts.models import User
-        from invenio.modules.workflows.errors import WorkflowError
+        from workflow.errors import WorkflowError
         from inspire.utils.tickets import get_instance
         from flask import render_template
 

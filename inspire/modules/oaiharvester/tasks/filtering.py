@@ -26,7 +26,7 @@ import traceback
 
 def get_content_from_file(obj, eng):
     """Replace object data with content from filepath in object data."""
-    from invenio.modules.workflows.errors import WorkflowError
+    from workflow.errors import WorkflowError
 
     filepath = obj.data
     try:
@@ -40,7 +40,7 @@ def get_content_from_file(obj, eng):
         )
         obj.log.error(err_msg)
         payload = {"filepath": filepath}
-        raise WorkflowError(err_msg, eng.uuid, obj.id, payload)
+        raise WorkflowError(err_msg, id_engine=eng.uuid, id_object=obj.id, payload=payload)
 
     obj.log.info("Found file at {0}".format(filepath))
     content = ""

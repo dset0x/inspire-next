@@ -210,7 +210,7 @@ def reply_ticket(template=None, keep_new=False):
     @wraps(reply_ticket)
     def _reply_ticket(obj, eng):
         from invenio.modules.accounts.models import User
-        from invenio.modules.workflows.errors import WorkflowError
+        from workflow.errors import WorkflowError
         from inspire.utils.tickets import get_instance
 
         ticket_id = obj.extra_data.get("ticket_id", "")
@@ -315,7 +315,7 @@ def send_robotupload_deposit(url=None):
     """Get the MARCXML from the deposit object and ships it."""
     @wraps(send_robotupload_deposit)
     def _send_robotupload_deposit(obj, eng):
-        from invenio.modules.workflows.errors import WorkflowError
+        from workflows.errors import WorkflowError
         from inspire.utils.robotupload import make_robotupload_marcxml
 
         callback_url = os.path.join(cfg["CFG_SITE_URL"],
@@ -326,7 +326,7 @@ def send_robotupload_deposit(url=None):
         sip = deposition.get_latest_sip(deposition.submitted)
 
         if not sip:
-            raise WorkflowError("No sip found", eng.uuid, obj.id)
+            raise WorkflowError("No sip found", id_engine=eng.uuid, id_object=obj.id)
         if not deposition.submitted:
             sip.seal()
             deposition.update()
@@ -348,7 +348,7 @@ def send_robotupload_deposit(url=None):
                               "on host")
                 obj.log.error(result.text)
             txt = "Error while submitting robotupload: {0}".format(result.text)
-            raise WorkflowError(txt, eng.uuid, obj.id)
+            raise WorkflowError(txt, id_engine=eng.uuid, id_object=obj.id)
         else:
             obj.log.info("Robotupload sent!")
             obj.log.info(result.text)
