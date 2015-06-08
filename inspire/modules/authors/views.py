@@ -38,7 +38,7 @@ from invenio.base.decorators import wash_arguments
 from invenio.base.globals import cfg
 from invenio.ext.principal import permission_required
 from invenio.modules.records.api import Record
-from invenio.modules.workflows.models import BibWorkflowObject
+from invenio.modules.workflows.models import DbWorkflowObject
 
 from .acl import viewauthorreview
 from .forms import AuthorUpdateForm
@@ -181,7 +181,7 @@ def newreview(objectid):
     """View for INSPIRE author new form review by a cataloger."""
     if not objectid:
         abort(400)
-    workflow_object = BibWorkflowObject.query.get(objectid)
+    workflow_object = DbWorkflowObject.query.get(objectid)
     extra_data = workflow_object.get_extra_data()
 
     form = AuthorUpdateForm(data=extra_data["formdata"])
@@ -204,7 +204,7 @@ def reviewaccepted(objectid, approved):
     """Form handler when a cataloger accepts a new author update"""
     if not objectid:
         abort(400)
-    workflow_object = BibWorkflowObject.query.get(objectid)
+    workflow_object = DbWorkflowObject.query.get(objectid)
     extra_data = workflow_object.get_extra_data()
     extra_data["approved"] = approved
     workflow_object.set_extra_data(extra_data)
@@ -220,13 +220,13 @@ def reviewaccepted(objectid, approved):
 def submitupdate():
     """Form action handler for INSPIRE author update form."""
     from inspire.modules.forms.utils import DataExporter
-    from invenio.modules.workflows.models import BibWorkflowObject
+    from invenio.modules.workflows.models import DbWorkflowObject
     from flask.ext.login import current_user
     form = AuthorUpdateForm(formdata=request.form)
     visitor = DataExporter()
     visitor.visit(form)
 
-    myobj = BibWorkflowObject.create_object(id_user=current_user.get_id())
+    myobj = DbWorkflowObject.create_object(id_user=current_user.get_id())
     myobj.set_data(visitor.data)
     # Start workflow. delayed=True will execute the workflow in the
     # background using, for example, Celery.
@@ -240,13 +240,13 @@ def submitupdate():
 def submitnew():
     """Form action handler for INSPIRE author new form."""
     from inspire.modules.forms.utils import DataExporter
-    from invenio.modules.workflows.models import BibWorkflowObject
+    from invenio.modules.workflows.models import DbWorkflowObject
     from flask.ext.login import current_user
     form = AuthorUpdateForm(formdata=request.form)
     visitor = DataExporter()
     visitor.visit(form)
 
-    myobj = BibWorkflowObject.create_object(id_user=current_user.get_id())
+    myobj = DbWorkflowObject.create_object(id_user=current_user.get_id())
     myobj.set_data(visitor.data)
     # Start workflow. delayed=True will execute the workflow in the
     # background using, for example, Celery.

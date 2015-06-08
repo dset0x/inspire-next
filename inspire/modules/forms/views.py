@@ -79,9 +79,9 @@ def demoform():
         # visitor = DataExporter()
         # visitor.visit(form)
         # visitor.data
-        from invenio.modules.workflows.models import BibWorkflowObject
+        from invenio.modules.workflows.models import DbWorkflowObject
         from flask.ext.login import current_user
-        myobj = BibWorkflowObject.create_object(id_user=current_user.get_id())
+        myobj = DbWorkflowObject.create_object(id_user=current_user.get_id())
         myobj.set_data(form.data)
         # Start workflow. delayed=True will execute the workflow in the
         # background using, for example, Celery.

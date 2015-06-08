@@ -24,7 +24,7 @@ from harvestingkit.html_utils import MathMLParser
 from invenio.base.decorators import wash_arguments
 from invenio.ext.principal import permission_required
 from invenio.modules.workflows.acl import viewholdingpen
-from invenio.modules.workflows.models import BibWorkflowObject
+from invenio.modules.workflows.models import DbWorkflowObject
 
 
 blueprint = Blueprint(
@@ -54,7 +54,7 @@ TITLE_FIELD = "title.title"
                  'objectid': (int, 0)})
 def edit_record_title(value, objectid):
     """Entrypoint for editing title from detailed pages."""
-    editable_obj = BibWorkflowObject.query.get(objectid)
+    editable_obj = DbWorkflowObject.query.get(objectid)
     data = editable_obj.get_data()
 
     data[TITLE_FIELD] = MathMLParser.html_to_text(value)
@@ -73,7 +73,7 @@ def edit_record_title(value, objectid):
 @wash_arguments({'objectid': (text_type, "")})
 def edit_record_subject(objectid):
     """Entrypoint for editing subjects from detailed pages."""
-    editable_obj = BibWorkflowObject.query.get(objectid)
+    editable_obj = DbWorkflowObject.query.get(objectid)
     data = editable_obj.get_data()
 
     old_subjects_list = data.get(SUBJECT_FIELD, [])
