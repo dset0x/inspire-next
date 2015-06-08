@@ -185,9 +185,9 @@ def delete_self_and_stop_processing(obj, eng):
     initial_obj = DbWorkflowObject.query.filter(
         DbWorkflowObject.id_parent == obj.id
     ).one()
-    BibWorkflowObject.delete(initial_obj.id)
+    initial_obj.delete()
     # delete self
-    BibWorkflowObject.delete(obj.id)
+    obj.delete()
     eng.skipToken()
 
 
