@@ -59,7 +59,7 @@ class arxiv_approval(object):
 
     def resolve(self, bwo):
         """Resolve the action taken in the approval action."""
-        from invenio.modules.workflows.models import ObjectVersion
+        from invenio.modules.workflows.models import ObjectStatus
         from inspire.modules.audit.signals import audit_action_taken
 
         # Audit logging
@@ -99,7 +99,7 @@ class arxiv_approval(object):
         extra_data["reason"] = request.form.get("text", "")
         extra_data["pdf_upload"] = True if upload_pdf == "true" else False
         bwo.set_extra_data(extra_data)
-        bwo.save(version=ObjectVersion.WAITING)
+        bwo.save(status=ObjectStatus.WAITING)
         bwo.continue_workflow(delayed=True)
 
         if extra_data["approved"]:

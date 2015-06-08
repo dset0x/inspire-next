@@ -300,9 +300,9 @@ def finalize_and_post_process(workflow_name, **kwargs):
     @wraps(finalize_and_post_process)
     def _finalize_and_post_process(obj, eng):
         from invenio.modules.workflows.api import start_delayed
-        from invenio.modules.workflows.models import ObjectVersion
+        from invenio.modules.workflows.models import ObjectStatus
 
-        obj.version = ObjectVersion.FINAL
+        obj.version = ObjectStatus.FINAL
         workflow_id = start_delayed(workflow_name,
                                     data=[obj],
                                     stop_on_error=True,
