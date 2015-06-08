@@ -20,7 +20,7 @@
 from flask import render_template
 
 from invenio.modules.workflows.definitions import WorkflowBase
-from invenio.modules.workflows.tasks.logic_tasks import (
+from workflow.tasks.logic_tasks import (
     workflow_else,
     workflow_if,
 )
