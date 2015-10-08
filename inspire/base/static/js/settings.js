@@ -61,7 +61,12 @@ require.config({
     "feedback": "js/feedback/feedback",
     "toastr": "vendors/toastr/toastr",
     "html2canvas": "vendors/html2canvas/build/html2canvas",
-    "highcharts": "vendors/highcharts-release/highcharts"
+    "highcharts": "vendors/highcharts-release/highcharts",
+
+    "watable": "vendors/watable/jquery.watable",
+    "bootstrap-datepicker-eyecon": "vendors/bootstrap-datepicker-eyecon/js/bootstrap-datepicker",
+    "jqcron": "vendors/jqcron/src/jqCron",
+    "jqcron.en": "vendors/jqcron/src/jqCron.en",
   },
   shim: {
     jquery: {
@@ -167,6 +172,21 @@ require.config({
     "highcharts" : {
       deps: ["jquery"],
       exports: "Highcharts"
-    }
+    },
+    "watable": {
+      deps: ["jquery", "bootstrap"],
+      exports: "$.fn.WATable"
+    },
+    "bootstrap-datepicker-eyecon": {
+      deps: ["jquery", "bootstrap"],
+      exports: "$.fn.datepicker"
+	},
+    "jqcron.en": {
+      deps: ["jquery", "jqcron"],
+	},
+    "jqcron": {
+      deps: ["jquery"],
+      exports: "$.fn.jqCron"
+	},
   }
 });
